@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="https://lumodevelopment.github.io/lumo-assets/AuthFavicon.png" type="image/png" />
+    <link rel="shortcut icon" href="https://lumodevelopment.github.io/lumo-assets/AuthFavicon.png" type="image/png" />
     <title>Verify Your Email - Lumo</title>
     <style>
       body,
@@ -207,6 +208,34 @@
           color: rgba(9, 9, 11, 0.7) !important;
         }
       }
+      .captcha-container {
+        margin: 24px 0 32px 0;
+        padding: 16px;
+        background: #f2f2f7;
+        border-radius: 10px;
+        border: 1px solid #ddd;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .captcha-label {
+        font-size: 15px;
+        margin-bottom: 8px;
+        color: #09090b;
+      }
+      .captcha-input {
+        font-size: 16px;
+        padding: 8px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        margin-bottom: 8px;
+        width: 120px;
+      }
+      .captcha-error {
+        color: #d32f2f;
+        font-size: 14px;
+        margin-top: 4px;
+      }
     </style>
   </head>
   <body>
@@ -222,17 +251,28 @@
             />
           </div>
         </div>
+
         <div class="main-content">
           <h1 class="title">Confirm Your Signup</h1>
           <p class="subtitle">
-            You're almost there! Just click this button, and you'll be all set to continue in Lumo.
+            You're almost there! Please solve the CAPTCHA to continue.
           </p>
-          <a id="verifyBtn" href="https://lumo.ooo" class="cta-button">Verify Email Address</a>
-          <p class="alternative-text">
+
+          <div class="captcha-container" id="captchaBox">
+            <label for="captchaInput" class="captcha-label">What is 6 + 2?</label>
+            <input type="text" id="captchaInput" class="captcha-input" autocomplete="off" />
+            <button id="captchaBtn" class="cta-button" style="margin-bottom:0;">Submit</button>
+            <div class="captcha-error" id="captchaError" style="display:none;"></div>
+          </div>
+
+          <a id="verifyBtn" href="#" class="cta-button" style="display:none;">Verify Email Address</a>
+
+          <p class="alternative-text" id="altText" style="display:none;">
             Doesn't work? Copy and paste this link into your browser instead:
           </p>
-          <div class="url-text" id="verifyUrlBox">https://lumo.ooo</div>
+          <div class="url-text" id="verifyUrlBox" style="display:none;">Loading...</div>
         </div>
+
         <div class="footer">
           <p class="footer-text">
             If you didn't create a Lumo account, you can safely leave this page.
@@ -241,40 +281,55 @@
       </div>
     </div>
     <script>
-      // Parse the real verification link from the URL
-      const urlSearchString = window.location.search;
-      let verifyUrl = null;
-      const verifyMatch = urlSearchString.match(/[?&]verify=([^&]*)/);
-      if (verifyMatch) {
-        verifyUrl = decodeURIComponent(verifyMatch[1]);
-        const remainingParams = urlSearchString.substring(verifyMatch.index + verifyMatch[0].length);
-        if (remainingParams && !verifyUrl.includes('&')) {
-          const fullUrlMatch = urlSearchString.match(/[?&]verify=(.+)/);
-          if (fullUrlMatch) {
-            verifyUrl = decodeURIComponent(fullUrlMatch[1]);
+      // CAPTCHA logic
+      const captchaAnswer = "8";
+      const captchaBtn = document.getElementById("captchaBtn");
+      const captchaInput = document.getElementById("captchaInput");
+      const captchaBox = document.getElementById("captchaBox");
+      const captchaError = document.getElementById("captchaError");
+
+      captchaBtn.onclick = function(e) {
+        e.preventDefault();
+        if (captchaInput.value.trim() === captchaAnswer) {
+          // Hide CAPTCHA, show the rest
+          captchaBox.style.display = "none";
+          document.getElementById("verifyBtn").style.display = "";
+          document.getElementById("altText").style.display = "";
+          document.getElementById("verifyUrlBox").style.display = "";
+          // Parse and populate the verification link
+          showVerification();
+        } else {
+          captchaError.textContent = "Incorrect, please try again.";
+          captchaError.style.display = "";
+        }
+      };
+
+      function showVerification() {
+        const urlSearchString = window.location.search;
+        let verifyUrl = null;
+        const verifyMatch = urlSearchString.match(/[?&]verify=([^&]*)/);
+        if (verifyMatch) {
+          verifyUrl = decodeURIComponent(verifyMatch[1]);
+          const remainingParams = urlSearchString.substring(verifyMatch.index + verifyMatch[0].length);
+          if (remainingParams && !verifyUrl.includes('&')) {
+            const fullUrlMatch = urlSearchString.match(/[?&]verify=(.+)/);
+            if (fullUrlMatch) {
+              verifyUrl = decodeURIComponent(fullUrlMatch[1]);
+            }
           }
         }
-      }
-
-      const btn = document.getElementById('verifyBtn');
-      const urlBox = document.getElementById('verifyUrlBox');
-
-      // Set dummy link initially (already set in HTML)
-      btn.href = "https://lumo.ooo";
-      urlBox.textContent = "https://lumo.ooo";
-
-      // After a short delay, switch to the real verification link
-      if (verifyUrl && /^https?:\/\//i.test(verifyUrl)) {
-        setTimeout(() => {
+        const btn = document.getElementById('verifyBtn');
+        const urlBox = document.getElementById('verifyUrlBox');
+        if (verifyUrl && /^https?:\/\//i.test(verifyUrl)) {
           btn.href = verifyUrl;
           btn.target = "_blank";
           urlBox.textContent = verifyUrl;
-        }, 350); // 0.35 seconds delay
-      } else {
-        btn.setAttribute("aria-disabled", "true");
-        btn.style.opacity = "0.5";
-        btn.style.pointerEvents = "none";
-        urlBox.textContent = "Invalid or missing verification link.";
+        } else {
+          btn.setAttribute("aria-disabled", "true");
+          btn.style.opacity = "0.5";
+          btn.style.pointerEvents = "none";
+          urlBox.textContent = "Invalid or missing verification link.";
+        }
       }
     </script>
   </body>
