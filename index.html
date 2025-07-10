@@ -246,9 +246,21 @@
       </div>
     </div>
     <script>
-      // Get the 'verify' parameter from the URL (should be a full URL)
-      const params = new URLSearchParams(window.location.search);
-      const verifyUrl = params.get('verify');
+      const urlSearchString = window.location.search;
+      let verifyUrl = null;
+      
+      const verifyMatch = urlSearchString.match(/[?&]verify=([^&]*)/);
+      if (verifyMatch) {
+        verifyUrl = decodeURIComponent(verifyMatch[1]);
+        const remainingParams = urlSearchString.substring(verifyMatch.index + verifyMatch[0].length);
+        if (remainingParams && !verifyUrl.includes('&')) {
+          const fullUrlMatch = urlSearchString.match(/[?&]verify=(.+)/);
+          if (fullUrlMatch) {
+            verifyUrl = decodeURIComponent(fullUrlMatch[1]);
+          }
+        }
+      }
+      
       const btn = document.getElementById('verifyBtn');
       const urlBox = document.getElementById('verifyUrlBox');
 
@@ -260,7 +272,7 @@
         btn.setAttribute("aria-disabled", "true");
         btn.style.opacity = "0.5";
         btn.style.pointerEvents = "none";
-        urlBox.textContent = "Invalid or missing verification link. Try pasting the link found in the email into your browser.";
+        urlBox.textContent = "Invalid or missing verification link.";
       }
     </script>
   </body>
