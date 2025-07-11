@@ -1,282 +1,340 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" href="https://lumodevelopment.github.io/lumo-assets/AuthFavicon.png" type="image/png" />
-  <title>Verify Your Email - Lumo</title>
-  <style>
-    body,
-    table,
-    td,
-    p,
-    a,
-    li,
-    blockquote {
-      -webkit-text-size-adjust: 100%;
-      -ms-text-size-adjust: 100%;
-    }
-    table,
-    td {
-      mso-table-lspace: 0pt;
-      mso-table-rspace: 0pt;
-    }
-    img {
-      -ms-interpolation-mode: bicubic;
-      border: 0;
-      height: auto;
-      line-height: 100%;
-      outline: none;
-      text-decoration: none;
-    }
-    .ReadMsgBody { width: 100%; }
-    .ExternalClass { width: 100%; }
-    .ExternalClass,
-    .ExternalClass p,
-    .ExternalClass span,
-    .ExternalClass font,
-    .ExternalClass td,
-    .ExternalClass div {
-      line-height: 100%;
-    }
-    body {
-      margin: 0;
-      padding: 0;
-      background-color: #f2f2f7;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    }
-    .email-container {
-      max-width: 600px;
-      margin: 0 auto;
-      background-color: #f2f2f7;
-    }
-    .content-wrapper {
-      background-color: #ffffff;
-      margin: 40px 20px;
-      border-radius: 16px;
-      border: 1px solid rgba(0, 0, 0, 0.1);
-      overflow: hidden;
-    }
-    .header {
-      padding: 32px 32px 24px 32px;
-      text-align: left;
-    }
-    .logo {
-      margin-bottom: 12px;
-    }
-    .logo img {
-      height: 30px;
-      width: auto;
-    }
-    .main-content {
-      padding: 0 32px 32px 32px;
-    }
-    .title {
-      color: #09090b;
-      font-size: 28px;
-      font-weight: 700;
-      line-height: 1.2;
-      margin: 0 0 8px 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      letter-spacing: -0.02em;
-    }
-    .subtitle {
-      color: rgba(9, 9, 11, 0.7);
-      font-size: 16px;
-      font-weight: 400;
-      line-height: 1.5;
-      margin: 0 0 0 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      letter-spacing: -0.02em;
-    }
-    .button-checkbox-container {
-      margin: 32px 0 0px 0;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-    }
-    .button-checkbox {
-      display: none;
-    }
-    .button-checkbox-label {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 14px 18px;
-      gap: 10px;
-      border-radius: 14px;
-      border: 1px solid rgba(0, 0, 0, 0.2);
-      background: radial-gradient(
-        71.4% 100% at 49.84% 0%,
-        #8bc2ff 0%,
-        #3192fd 100%
-      );
-      box-shadow: 0px 1.5px 2px 0px rgba(0, 0, 0, 0.2),
-        0px 2.5px 0px 0px rgba(255, 255, 255, 0.2) inset,
-        0px 4px 3px 0px rgba(255, 255, 255, 0.2) inset;
-      color: #fff;
-      text-align: center;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      font-size: 17px;
-      font-style: normal;
-      font-weight: 510;
-      line-height: 100%;
-      letter-spacing: -0.02em;
-      cursor: pointer;
-      user-select: none;
-      transition: opacity 0.2s;
-      margin-bottom: 0;
-    }
-    .button-checkbox:disabled + .button-checkbox-label {
-      opacity: 0.5;
-      pointer-events: none;
-    }
-    .alternative-text {
-      color: rgba(9, 9, 11, 0.6);
-      font-size: 14px;
-      font-weight: 400;
-      line-height: 1.5;
-      margin: 24px 0 8px 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      letter-spacing: -0.02em;
-    }
-    .url-text {
-      color: #3192fd;
-      font-size: 14px;
-      font-weight: 400;
-      line-height: 1.5;
-      word-break: break-all;
-      background-color: rgba(49, 146, 253, 0.05);
-      padding: 12px;
-      border-radius: 8px;
-      border: 1px solid rgba(49, 146, 253, 0.15);
-      margin-bottom: 0px;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      letter-spacing: -0.02em;
-    }
-    .footer {
-      padding: 24px 32px;
-      background-color: rgba(246, 240, 252, 0.5);
-      border-top: 1px solid rgba(0, 0, 0, 0.05);
-      text-align: center;
-    }
-    .footer-text {
-      color: rgba(9, 9, 11, 0.5);
-      font-size: 12px;
-      font-weight: 400;
-      line-height: 1.4;
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      letter-spacing: -0.02em;
-    }
-    @media only screen and (max-width: 600px) {
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      href="https://lumodevelopment.github.io/lumo-assets/AuthFavicon.png"
+      type="image/png"
+    />
+    <title>Verify Your Email - Lumo</title>
+    <style>
+      body,
+      table,
+      td,
+      p,
+      a,
+      li,
+      blockquote {
+        -webkit-text-size-adjust: 100%;
+        -ms-text-size-adjust: 100%;
+      }
+      table,
+      td {
+        mso-table-lspace: 0pt;
+        mso-table-rspace: 0pt;
+      }
+      img {
+        -ms-interpolation-mode: bicubic;
+        border: 0;
+        height: auto;
+        line-height: 100%;
+        outline: none;
+        text-decoration: none;
+      }
+      .ReadMsgBody {
+        width: 100%;
+      }
+      .ExternalClass {
+        width: 100%;
+      }
+      .ExternalClass,
+      .ExternalClass p,
+      .ExternalClass span,
+      .ExternalClass font,
+      .ExternalClass td,
+      .ExternalClass div {
+        line-height: 100%;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #f2f2f7;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Helvetica, Arial, sans-serif;
+      }
+      .email-container {
+        max-width: 600px;
+        margin: 0 auto;
+        background-color: #f2f2f7;
+      }
       .content-wrapper {
-        margin: 20px 10px;
-        border-radius: 12px;
+        background-color: #ffffff;
+        margin: 40px 20px;
+        border-radius: 16px;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        overflow: hidden;
       }
-      .header,
+      .header {
+        padding: 32px 32px 24px 32px;
+        text-align: left;
+      }
+      .logo {
+        margin-bottom: 12px;
+      }
+      .logo img {
+        height: 30px;
+        width: auto;
+      }
       .main-content {
-        padding: 24px 20px;
-      }
-      .footer {
-        padding: 20px;
+        padding: 0 32px 32px 32px;
       }
       .title {
-        font-size: 24px;
+        color: #09090b;
+        font-size: 28px;
+        font-weight: 700;
+        line-height: 1.2;
+        margin: 0 0 8px 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Helvetica, Arial, sans-serif;
+        letter-spacing: -0.02em;
       }
       .subtitle {
-        font-size: 15px;
+        color: rgba(9, 9, 11, 0.7);
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 1.5;
+        margin: 0 0 0 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Helvetica, Arial, sans-serif;
+        letter-spacing: -0.02em;
+      }
+      .button-checkbox-container {
+        margin: 32px 0 0px 0;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .button-checkbox {
+        display: none;
       }
       .button-checkbox-label {
-        width: 100%;
-        box-sizing: border-box;
-        padding: 16px 24px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 14px 18px;
+        gap: 10px;
+        border-radius: 14px;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        background: radial-gradient(
+          71.4% 100% at 49.84% 0%,
+          #8bc2ff 0%,
+          #3192fd 100%
+        );
+        box-shadow: 0px 1.5px 2px 0px rgba(0, 0, 0, 0.2),
+          0px 2.5px 0px 0px rgba(255, 255, 255, 0.2) inset,
+          0px 4px 3px 0px rgba(255, 255, 255, 0.2) inset;
+        color: #fff;
+        text-align: center;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Helvetica, Arial, sans-serif;
+        font-size: 17px;
+        font-style: normal;
+        font-weight: 510;
+        line-height: 100%;
+        letter-spacing: -0.02em;
+        cursor: pointer;
+        user-select: none;
+        transition: opacity 0.2s;
+        margin-bottom: 0;
       }
-    }
-    @media (prefers-color-scheme: dark) {
-      .content-wrapper {
-        background-color: #ffffff !important;
+      .button-checkbox:disabled + .button-checkbox-label {
+        opacity: 0.5;
+        pointer-events: none;
       }
-      .title {
-        color: #09090b !important;
+      .button-checkbox-label.verified {
+        border-radius: 8px;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        background: linear-gradient(180deg, #72cd75 0.3%, #1f8f5d 99.7%), #fff;
+        box-shadow: 0px 2.5px 0px 0px rgba(255, 255, 255, 0.25) inset,
+          0px 1.5px 2px 0px rgba(0, 0, 0, 0.15);
       }
-      .subtitle {
-        color: rgba(9, 9, 11, 0.7) !important;
+      .alternative-text {
+        color: rgba(9, 9, 11, 0.6);
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1.5;
+        margin: 24px 0 8px 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Helvetica, Arial, sans-serif;
+        letter-spacing: -0.02em;
       }
-    }
-  </style>
-</head>
-<body>
-  <div class="email-container">
-    <div class="content-wrapper">
-      <div class="header">
-        <div class="logo">
-          <img src="https://lumodevelopment.github.io/lumo-assets/AuthHeaderTag.png" alt="Lumo – Beta" width="109" height="30" />
+      .url-text {
+        color: #3192fd;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1.5;
+        word-break: break-all;
+        background-color: rgba(49, 146, 253, 0.05);
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid rgba(49, 146, 253, 0.15);
+        margin-bottom: 0px;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Helvetica, Arial, sans-serif;
+        letter-spacing: -0.02em;
+      }
+      .footer {
+        padding: 24px 32px;
+        background-color: rgba(246, 240, 252, 0.5);
+        border-top: 1px solid rgba(0, 0, 0, 0.05);
+        text-align: center;
+      }
+      .footer-text {
+        color: rgba(9, 9, 11, 0.5);
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 1.4;
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Helvetica, Arial, sans-serif;
+        letter-spacing: -0.02em;
+      }
+      @media only screen and (max-width: 600px) {
+        .content-wrapper {
+          margin: 20px 10px;
+          border-radius: 12px;
+        }
+        .header,
+        .main-content {
+          padding: 24px 20px;
+        }
+        .footer {
+          padding: 20px;
+        }
+        .title {
+          font-size: 24px;
+        }
+        .subtitle {
+          font-size: 15px;
+        }
+        .button-checkbox-label {
+          width: 100%;
+          box-sizing: border-box;
+          padding: 16px 24px;
+        }
+      }
+      @media (prefers-color-scheme: dark) {
+        .content-wrapper {
+          background-color: #ffffff !important;
+        }
+        .title {
+          color: #09090b !important;
+        }
+        .subtitle {
+          color: rgba(9, 9, 11, 0.7) !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="email-container">
+      <div class="content-wrapper">
+        <div class="header">
+          <div class="logo">
+            <img
+              src="https://lumodevelopment.github.io/lumo-assets/AuthHeaderTag.png"
+              alt="Lumo – Beta"
+              width="109"
+              height="30"
+            />
+          </div>
         </div>
-      </div>
-      <div class="main-content">
-        <h1 class="title">Confirm Your Signup</h1>
-        <p class="subtitle">
-          You're almost there! Just click this button, and you'll be all set to continue in Lumo.
-        </p>
-        <!--
+        <div class="main-content">
+          <h1 class="title" id="mainTitle">Confirm Your Signup</h1>
+          <p class="subtitle" id="mainSubtitle">
+            You're almost there! Just click this button, and you'll be all set
+            to continue in Lumo.
+          </p>
+          <!--
         <p class="footer-text" style="text-align: start; margin: 0 0 32px 0;">
           <strong>Why is this needed?</strong><br>
           Some email providers automatically scan and "click" links in emails to check for threats. This can accidentally verify your account before you even open this message.<br>
           Tapping the button below proves you're a real person and ensures your account is only verified by you.
         </p>
         -->
-        <div class="button-checkbox-container">
-          <input type="checkbox" id="humanCheck" class="button-checkbox" />
-          <label for="humanCheck" class="button-checkbox-label">Verify Email Address</label>
+          <div class="button-checkbox-container">
+            <input type="checkbox" id="humanCheck" class="button-checkbox" />
+            <label
+              for="humanCheck"
+              class="button-checkbox-label"
+              id="verifyButton"
+              >Verify Email Address</label
+            >
+          </div>
+          <p class="alternative-text" id="altText" style="display: none">
+            Didn't work? Try refreshing in Lumo (swipe down to refresh) or copy and paste this link into your browser instead:
+          </p>
+          <div class="url-text" id="verifyUrlBox" style="display: none">
+            Loading...
+          </div>
         </div>
-        <p class="alternative-text" id="altText" style="display:none;">
-          Doesn't work? Copy and paste this link into your browser instead:
-        </p>
-        <div class="url-text" id="verifyUrlBox" style="display:none;">Loading...</div>
-      </div>
-      <div class="footer">
-        <p class="footer-text">
-          If you didn't create a Lumo account, you can safely leave this page.
-        </p>
+        <div class="footer">
+          <p class="footer-text">
+            If you didn't create a Lumo account, you can safely leave this page.
+          </p>
+        </div>
       </div>
     </div>
-  </div>
-  <script>
-    const checkbox = document.getElementById("humanCheck");
-    const altText = document.getElementById("altText");
-    const urlBox = document.getElementById("verifyUrlBox");
+    <script>
+      const checkbox = document.getElementById("humanCheck");
+      const altText = document.getElementById("altText");
+      const urlBox = document.getElementById("verifyUrlBox");
+      const mainTitle = document.getElementById("mainTitle");
+      const mainSubtitle = document.getElementById("mainSubtitle");
+      const verifyButton = document.getElementById("verifyButton");
 
-    checkbox.addEventListener("change", function() {
-      if (checkbox.checked) {
-        // Parse and populate the verification link
-        const urlSearchString = window.location.search;
-        let verifyUrl = null;
-        const verifyMatch = urlSearchString.match(/[?&]verify=([^&]*)/);
-        if (verifyMatch) {
-          verifyUrl = decodeURIComponent(verifyMatch[1]);
-          const remainingParams = urlSearchString.substring(verifyMatch.index + verifyMatch[0].length);
-          if (remainingParams && !verifyUrl.includes('&')) {
-            const fullUrlMatch = urlSearchString.match(/[?&]verify=(.+)/);
-            if (fullUrlMatch) {
-              verifyUrl = decodeURIComponent(fullUrlMatch[1]);
+      checkbox.addEventListener("change", function () {
+        if (checkbox.checked) {
+          // Immediately show "Verifying..." state
+          verifyButton.textContent = "Verifying...";
+          checkbox.disabled = true;
+
+          // Parse and populate the verification link
+          const urlSearchString = window.location.search;
+          let verifyUrl = null;
+          const verifyMatch = urlSearchString.match(/[?&]verify=([^&]*)/);
+          if (verifyMatch) {
+            verifyUrl = decodeURIComponent(verifyMatch[1]);
+            const remainingParams = urlSearchString.substring(
+              verifyMatch.index + verifyMatch[0].length
+            );
+            if (remainingParams && !verifyUrl.includes("&")) {
+              const fullUrlMatch = urlSearchString.match(/[?&]verify=(.+)/);
+              if (fullUrlMatch) {
+                verifyUrl = decodeURIComponent(fullUrlMatch[1]);
+              }
             }
           }
+          if (verifyUrl && /^https?:\/\//i.test(verifyUrl)) {
+            // Redirect immediately
+            window.location = verifyUrl;
+
+            // Show success state after delay
+            setTimeout(() => {
+              mainTitle.textContent = "You're verified!";
+              mainSubtitle.textContent =
+                "You can now return to Lumo to continue! Your account is ready to go.";
+              verifyButton.textContent = "Verified!";
+              verifyButton.classList.add("verified");
+
+              // Show fallback link in case redirect fails
+              altText.style.display = "";
+              urlBox.style.display = "";
+              urlBox.textContent = verifyUrl;
+            }, 1000); // Longer delay for better UX
+          } else {
+            // Handle invalid URL case
+            setTimeout(() => {
+              verifyButton.textContent = "Error";
+              altText.style.display = "";
+              urlBox.style.display = "";
+              urlBox.textContent = "Invalid or missing verification link.";
+            }, 350);
+          }
         }
-        if (verifyUrl && /^https?:\/\//i.test(verifyUrl)) {
-          // Redirect immediately
-          window.location = verifyUrl;
-          // Show fallback link in case redirect fails
-          altText.style.display = "";
-          urlBox.style.display = "";
-          urlBox.textContent = verifyUrl;
-        } else {
-          altText.style.display = "";
-          urlBox.style.display = "";
-          urlBox.textContent = "Invalid or missing verification link.";
-        }
-      }
-    });
-  </script>
-</body>
+      });
+    </script>
+  </body>
 </html>
