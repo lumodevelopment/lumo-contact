@@ -8,7 +8,7 @@
       href="https://lumodevelopment.github.io/lumo-assets/AuthFavicon.png"
       type="image/png"
     />
-    <title>Verify Your Email - Lumo</title>
+    <title>Privacy Policy - Lumo</title>
     <style>
       body,
       table,
@@ -174,6 +174,24 @@
           Helvetica, Arial, sans-serif;
         letter-spacing: -0.02em;
       }
+      .privacy-content {
+        color: #09090b;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 1.6;
+        margin: 32px 0 0 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Helvetica, Arial, sans-serif;
+        letter-spacing: -0.02em;
+        white-space: pre-line;
+      }
+      .privacy-content h3 {
+        color: #09090b;
+        font-size: 20px;
+        font-weight: 600;
+        margin: 32px 0 16px 0;
+        line-height: 1.3;
+      }
       .footer {
         padding: 24px 32px;
         background-color: rgba(246, 240, 252, 0.5);
@@ -230,99 +248,39 @@
           </div>
         </div>
         <div class="main-content">
-          <h1 class="title" id="mainTitle">Confirm Your Signup</h1>
-          <p class="subtitle" id="mainSubtitle">
-            You're almost there! Just click this button, and you'll be all set
-            to continue in Lumo.
+          <h1 class="title">Privacy Policy</h1>
+          <p class="subtitle">
+            Learn how we collect, use, and protect your information when you use
+            Lumo.
           </p>
-          <!--
-        <p class="footer-text" style="text-align: start; margin: 0 0 32px 0;">
-          <strong>Why is this needed?</strong><br>
-          Some email providers automatically scan and "click" links in emails to check for threats. This can accidentally verify your account before you even open this message.<br>
-          Tapping the button below proves you're a real person and ensures your account is only verified by you.
-        </p>
-        -->
-          <div class="button-checkbox-container">
-            <input type="checkbox" id="humanCheck" class="button-checkbox" />
-            <label
-              for="humanCheck"
-              class="button-checkbox-label"
-              id="verifyButton"
-              >Verify Email Address</label
-            >
-          </div>
-          <p class="alternative-text" id="altText" style="display: none">
-            Didn't work? Try refreshing in Lumo (swipe down to refresh) or copy and paste this link into your browser instead:
-          </p>
-          <div class="url-text" id="verifyUrlBox" style="display: none">
-            Loading...
+          <div class="privacy-content" id="privacyContent">
+            Loading privacy policy...
           </div>
         </div>
         <div class="footer">
           <p class="footer-text">
-            If you didn't create a Lumo account, you can safely leave this page.
+            Lumo for Students
           </p>
         </div>
       </div>
     </div>
     <script>
-      const checkbox = document.getElementById("humanCheck");
-      const altText = document.getElementById("altText");
-      const urlBox = document.getElementById("verifyUrlBox");
-      const mainTitle = document.getElementById("mainTitle");
-      const mainSubtitle = document.getElementById("mainSubtitle");
-      const verifyButton = document.getElementById("verifyButton");
-
-      checkbox.addEventListener("change", function () {
-        if (checkbox.checked) {
-          // Immediately show "Verifying..." state
-          verifyButton.textContent = "Verifying...";
-          checkbox.disabled = true;
-
-          // Parse and populate the verification link
-          const urlSearchString = window.location.search;
-          let verifyUrl = null;
-          const verifyMatch = urlSearchString.match(/[?&]verify=([^&]*)/);
-          if (verifyMatch) {
-            verifyUrl = decodeURIComponent(verifyMatch[1]);
-            const remainingParams = urlSearchString.substring(
-              verifyMatch.index + verifyMatch[0].length
-            );
-            if (remainingParams && !verifyUrl.includes("&")) {
-              const fullUrlMatch = urlSearchString.match(/[?&]verify=(.+)/);
-              if (fullUrlMatch) {
-                verifyUrl = decodeURIComponent(fullUrlMatch[1]);
-              }
-            }
+      // Fetch and display the privacy policy content
+      fetch("privacy_policy.txt")
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Failed to load privacy policy");
           }
-          if (verifyUrl && /^https?:\/\//i.test(verifyUrl)) {
-            // Redirect immediately
-            window.location = verifyUrl;
-
-            // Show success state after delay
-            setTimeout(() => {
-              mainTitle.textContent = "You're verified!";
-              mainSubtitle.textContent =
-                "You can now return to Lumo to continue! Your account is ready to go.";
-              verifyButton.textContent = "Verified!";
-              verifyButton.classList.add("verified");
-
-              // Show fallback link in case redirect fails
-              altText.style.display = "";
-              urlBox.style.display = "";
-              urlBox.textContent = verifyUrl;
-            }, 1000); // Longer delay for better UX
-          } else {
-            // Handle invalid URL case
-            setTimeout(() => {
-              verifyButton.textContent = "Error";
-              altText.style.display = "";
-              urlBox.style.display = "";
-              urlBox.textContent = "Invalid or missing verification link.";
-            }, 350);
-          }
-        }
-      });
+          return response.text();
+        })
+        .then((text) => {
+          document.getElementById("privacyContent").textContent = text;
+        })
+        .catch((error) => {
+          console.error("Error loading privacy policy:", error);
+          document.getElementById("privacyContent").textContent =
+            "Error loading privacy policy. Please try refreshing the page or contact support@lumo.ooo if the problem persists.";
+        });
     </script>
   </body>
 </html>
